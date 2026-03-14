@@ -112,9 +112,15 @@ GLMへの指示はこの4層で構成する：
 | StitchMCP | `mcp__StitchMCP__` | Google Stitch連携 |
 | pencil | `mcp__pencil__` | UI/デザイン生成 |
 
+### CLI ツール一覧（MCP以外）
+
+| ツール | 呼び出し方 | 用途 |
+|---|---|---|
+| gws | `Bash(gws ...)` | Google Workspace（Drive・Gmail・Calendar・Sheets） |
+
 ### 使い分けの原則
 
-| やりたいこと | 使うMCP |
+| やりたいこと | 使うツール |
 |---|---|
 | ISSUEを作成・取得する | `github-mcp-server` |
 | PRを作成・レビューする | `github-mcp-server` |
@@ -122,10 +128,15 @@ GLMへの指示はこの4層で構成する：
 | 仕様書を要約・Q&Aする | `notebooklm` |
 | コードベースを横断検索する | `cocoindex-code` |
 | UIデザインを生成・編集する | `pencil` |
+| Google Driveのファイルを操作する | `Bash(gws drive ...)` |
+| Gmailを送受信する | `Bash(gws gmail ...)` |
+| Calendarを操作する | `Bash(gws calendar ...)` |
+| Sheetsを読み書きする | `Bash(gws sheets ...)` |
 
 詳細ワークフロー:
 - GitHub ISSUE/PR: `.agents/workflows/github.md`
 - Notion: `.agents/workflows/notion.md`
+- Google Workspace: `.agents/workflows/google-workspace.md`
 
 ---
 
@@ -258,5 +269,6 @@ gh pr create --draft --title "feat: ○○機能" --body "WIP: ○○を実装�
 - プリフライトチェック: `.agents/workflows/preflight.md`
 - GitHub ISSUE/PR: `.agents/workflows/github.md`
 - Notion: `.agents/workflows/notion.md`
+- Google Workspace: `.agents/workflows/google-workspace.md`
 - Claude Codeツール全般: `~/.claude/mcp-claude.md`
 - ワークフローパターン集: `~/.claude/workflow.md`
