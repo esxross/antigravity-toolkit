@@ -97,8 +97,39 @@ GLMへの指示はこの4層で構成する：
 
 ---
 
+## その他MCPサーバー一覧
+
+| サーバー | ツール名プレフィックス | 用途 |
+|---|---|---|
+| github-mcp-server | `mcp__github-mcp-server__` | GitHub ISSUE/PR操作 |
+| notion | `mcp__notion__` | Notionページ読み書き |
+| notion-mcp-server | `mcp__notion-mcp-server__` | Notion（代替） |
+| notebooklm | `mcp__notebooklm__` | 仕様書Q&A・要約 |
+| cocoindex-code | `mcp__cocoindex-code__` | コードベース横断検索 |
+| StitchMCP | `mcp__StitchMCP__` | Google Stitch連携 |
+| pencil | `mcp__pencil__` | UI/デザイン生成 |
+
+### 使い分けの原則
+
+| やりたいこと | 使うMCP |
+|---|---|
+| ISSUEを作成・取得する | `github-mcp-server` |
+| PRを作成・レビューする | `github-mcp-server` |
+| Notionに仕様を書く/読む | `notion` |
+| 仕様書を要約・Q&Aする | `notebooklm` |
+| コードベースを横断検索する | `cocoindex-code` |
+| UIデザインを生成・編集する | `pencil` |
+
+詳細ワークフロー:
+- GitHub ISSUE/PR: `.agents/workflows/github.md`
+- Notion: `.agents/workflows/notion.md`
+
+---
+
 ## 詳細ガイド参照先
 
-- GLMワークフロー詳細: `~/.claude/mcp-antigravity.md`
+- GLMワークフロー詳細: `.agents/workflows/glm_parallel.md`
+- GitHub ISSUE/PR: `.agents/workflows/github.md`
+- Notion: `.agents/workflows/notion.md`
 - Claude Codeツール全般: `~/.claude/mcp-claude.md`
 - ワークフローパターン集: `~/.claude/workflow.md`
