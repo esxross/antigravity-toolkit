@@ -1,0 +1,24 @@
+{
+  "_comment": "Antigravity 設定テンプレート。実際の値はプロジェクトに合わせて変更してください。",
+  "project": {
+    "name": "PROJECT_NAME",
+    "language": "ja",
+    "timezone": "Asia/Tokyo"
+  },
+  "agent": {
+    "default_model": "claude-opus-4-6",
+    "lite_model": "claude-haiku-4-5",
+    "response_language": "ja"
+  },
+  "conventions": {
+    "commit_format": "conventional-commits",
+    "branch_prefix": "feat/",
+    "code_language": "en",
+    "comment_language": "ja"
+  },
+  "workflows": {
+    "require_tests_before_pr": true,
+    "require_review_before_merge": true,
+    "auto_create_task_md": true
+  }
+}
