@@ -6,8 +6,37 @@
     "timezone": "Asia/Tokyo"
   },
   "agent": {
-    "default_model": "claude-opus-4-6",
-    "lite_model": "claude-haiku-4-5",
+    "lead": {
+      "role": "Antigravity（Claude）",
+      "responsibilities": ["要件整理", "設計", "ファイル書き込み", "テスト実行", "コミット"],
+      "model": "claude-opus-4-6"
+    },
+    "teammates": {
+      "glm-coder": {
+        "tool": "mcp__glm-coder__ask_glm",
+        "role": "実装コード生成（メイン）"
+      },
+      "glm-tester": {
+        "tool": "mcp__glm-tester__ask_glm",
+        "role": "テストコード生成（メイン）"
+      },
+      "glm-reviewer": {
+        "tool": "mcp__glm-reviewer__ask_glm",
+        "role": "コードレビュー・分析（メイン）"
+      },
+      "glm-coder2": {
+        "tool": "mcp__glm-coder2__ask_glm",
+        "role": "実装コード生成（並列サブタスク用）"
+      },
+      "glm-tester2": {
+        "tool": "mcp__glm-tester2__ask_glm",
+        "role": "テストコード生成（並列サブタスク用）"
+      },
+      "glm-reviewer2": {
+        "tool": "mcp__glm-reviewer2__ask_glm",
+        "role": "コードレビュー・分析（並列サブタスク用）"
+      }
+    },
     "response_language": "ja"
   },
   "conventions": {
@@ -19,6 +48,7 @@
   "workflows": {
     "require_tests_before_pr": true,
     "require_review_before_merge": true,
-    "auto_create_task_md": true
+    "auto_create_task_md": true,
+    "glm_parallel": true
   }
 }
