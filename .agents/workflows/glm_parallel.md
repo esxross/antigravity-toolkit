@@ -46,6 +46,34 @@ description: GLMを並列呼び出しして実装・テスト・レビューを�
   各結果を独立して適用
 ```
 
+## パターン4: Git Worktree + GLM並列（ファイル競合ゼロ）
+
+**対象**: 複数機能を同時開発 / 同一ファイルへの書き込みが競合しうるケース
+
+```
+[Lead] 事前準備：API境界・型定義・インターフェースを先に確定する
+
+[Lead] worktreeを機能ごとに作成
+  git worktree add ../worktree-feat-a feat/feature-a
+  git worktree add ../worktree-feat-b feat/feature-b
+
+[並列呼び出し]
+  glm-46  ← feature-a の実装（../worktree-feat-a/ 向け）
+  glm-46b ← feature-b の実装（../worktree-feat-b/ 向け）
+
+[Lead]
+  各worktreeに結果を書き込む → 独立してテスト実行
+  完了後 → PR作成 → マージ → worktree削除
+  git worktree remove ../worktree-feat-a
+  git worktree remove ../worktree-feat-b
+```
+
+### 注意事項
+
+- **同一ファイルへの同時書き込みは禁止**: マージコンフリクトが発生する
+- **共有リソースに注意**: DB・Dockerデーモン・キャッシュはworktree間で共有されるため、DBステートの同時変更でレースコンディションが発生しうる
+- **型定義・API境界は先に合意する**: worktree分割前に `types.ts` や API インターフェースを確定しておく
+
 ---
 
 ## GLMへの指示テンプレート
