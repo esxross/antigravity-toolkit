@@ -129,6 +129,73 @@ GLMへの指示はこの4層で構成する：
 
 ---
 
+## エージェントセキュリティ（OWASP Top 10 for Agentic Applications）
+
+自律実行エージェントに広い権限を与える場合の必須ガードレール。
+
+### 1. 権限は最小限に
+
+`.claude/settings.json` でツール・コマンドを制限する：
+
+```json
+{
+  "permissions": {
+    "allow": ["Read", "Write", "Edit", "Bash(npm test)", "Bash(npm run build)"],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(chmod*)",
+      "Bash(sudo*)"
+    ]
+  }
+}
+```
+
+### 2. MCPサーバーの出所を確認する
+
+- **サードパーティMCPはサプライチェーン攻撃のベクター**になりうる
+- 使用前にソースコードを確認する、または信頼できる公式のみ使用する
+- 本プロジェクトで使用するMCPサーバー一覧は `AGENTS.md` に明示し、追加時はユーザーが必ず承認する
+
+### 3. シークレットをコンテキストに入れない
+
+```
+❌ .env・credentials をエージェントに直接読ませる
+✅ MCPサーバー経由で間接アクセス（値を直接渡さない）
+✅ 環境変数として注入し、コードにハードコードしない
+```
+
+**mcp_config.json はリポジトリにコミットしない**（APIキー・PAT含むため）
+
+### 4. エージェント生成コードは必ずレビューする
+
+- GLM生成コードは **Leadが必ずレビュー後にコミット**（自動マージ禁止）
+- AI生成コードはセキュリティバグが **1.5〜2倍多い**（研究報告）
+- 認証・決済・データ変更のコードは **ユーザーが手動レビュー必須**
+
+### 5. 破壊的操作にはHooksでガードレールを設ける
+
+`.claude/settings.json` の PreToolUse Hooks 例：
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [{
+          "type": "command",
+          "command": "echo '$CLAUDE_TOOL_INPUT' | grep -qE '(rm -rf|push --force|reset --hard|drop table|DELETE FROM)' && exit 1 || exit 0"
+        }]
+      }
+    ]
+  }
+}
+```
+
+---
+
 ## Git コミット・プッシュルール
 
 ### コミットの原則
