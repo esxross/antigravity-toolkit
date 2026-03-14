@@ -24,6 +24,18 @@
       "glm-46c": {
         "tool": "mcp__glm-46c__ask_glm",
         "role": "コード生成・実装（並列C）"
+      },
+      "glm-46d": {
+        "tool": "mcp__glm-46d__ask_glm",
+        "role": "コード生成・実装（並列D）"
+      },
+      "glm-46e": {
+        "tool": "mcp__glm-46e__ask_glm",
+        "role": "コード生成・実装（並列E）"
+      },
+      "glm-46f": {
+        "tool": "mcp__glm-46f__ask_glm",
+        "role": "コード生成・実装（並列F）"
       }
     },
     "response_language": "ja"
