@@ -12,29 +12,18 @@
       "model": "claude-opus-4-6"
     },
     "teammates": {
-      "glm-coder": {
-        "tool": "mcp__glm-coder__ask_glm",
-        "role": "実装コード生成（メイン）"
+      "model": "glm-4.6",
+      "glm-46": {
+        "tool": "mcp__glm-46__ask_glm",
+        "role": "コード生成・実装（メイン）"
       },
-      "glm-tester": {
-        "tool": "mcp__glm-tester__ask_glm",
-        "role": "テストコード生成（メイン）"
+      "glm-46b": {
+        "tool": "mcp__glm-46b__ask_glm",
+        "role": "コード生成・実装（並列B）"
       },
-      "glm-reviewer": {
-        "tool": "mcp__glm-reviewer__ask_glm",
-        "role": "コードレビュー・分析（メイン）"
-      },
-      "glm-coder2": {
-        "tool": "mcp__glm-coder2__ask_glm",
-        "role": "実装コード生成（並列サブタスク用）"
-      },
-      "glm-tester2": {
-        "tool": "mcp__glm-tester2__ask_glm",
-        "role": "テストコード生成（並列サブタスク用）"
-      },
-      "glm-reviewer2": {
-        "tool": "mcp__glm-reviewer2__ask_glm",
-        "role": "コードレビュー・分析（並列サブタスク用）"
+      "glm-46c": {
+        "tool": "mcp__glm-46c__ask_glm",
+        "role": "コード生成・実装（並列C）"
       }
     },
     "response_language": "ja"
