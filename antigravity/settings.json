@@ -15,27 +15,33 @@
       "model": "glm-4.6",
       "glm-46": {
         "tool": "mcp__glm-46__ask_glm",
-        "role": "コード生成・実装（メイン）"
+        "role": "テスト生成A（RED: 正常系・仕様ベース）",
+        "tdd_phase": "RED"
       },
       "glm-46b": {
         "tool": "mcp__glm-46b__ask_glm",
-        "role": "コード生成・実装（並列B）"
+        "role": "テスト生成B（RED: 異常系・エッジケース）",
+        "tdd_phase": "RED"
       },
       "glm-46c": {
         "tool": "mcp__glm-46c__ask_glm",
-        "role": "コード生成・実装（並列C）"
+        "role": "実装 Actor A（GREEN: テストを通す最小実装）",
+        "tdd_phase": "GREEN"
       },
       "glm-46d": {
         "tool": "mcp__glm-46d__ask_glm",
-        "role": "コード生成・実装（並列D）"
+        "role": "実装 Actor B（GREEN: Best-of-N 別実装案）",
+        "tdd_phase": "GREEN"
       },
       "glm-46e": {
         "tool": "mcp__glm-46e__ask_glm",
-        "role": "コード生成・実装（並列E）"
+        "role": "Critic（REFACTOR: テスト・実装の批評・改善提案）",
+        "tdd_phase": "REFACTOR"
       },
       "glm-46f": {
         "tool": "mcp__glm-46f__ask_glm",
-        "role": "コード生成・実装（並列F）"
+        "role": "セキュリティ・品質レビュー（全フェーズ）",
+        "tdd_phase": "ALL"
       }
     },
     "response_language": "ja"

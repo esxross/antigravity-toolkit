@@ -18,16 +18,16 @@
 
 ## GLM MCPサーバー一覧
 
-モデル: **GLM-4.6**（6インスタンス並列構成）
+モデル: **GLM-4.6**（6インスタンス・TDD役割分担構成）
 
-| インスタンス | ツール名 | 用途 |
-|---|---|---|
-| glm-46 | `mcp__glm-46__ask_glm` | コード生成・実装（メイン） |
-| glm-46b | `mcp__glm-46b__ask_glm` | コード生成・実装（並列B） |
-| glm-46c | `mcp__glm-46c__ask_glm` | コード生成・実装（並列C） |
-| glm-46d | `mcp__glm-46d__ask_glm` | コード生成・実装（並列D） |
-| glm-46e | `mcp__glm-46e__ask_glm` | コード生成・実装（並列E） |
-| glm-46f | `mcp__glm-46f__ask_glm` | コード生成・実装（並列F） |
+| インスタンス | ツール名 | 役割 | TDDフェーズ |
+|---|---|---|---|
+| glm-46 | `mcp__glm-46__ask_glm` | テスト生成A（正常系・仕様ベース） | 🔴 RED |
+| glm-46b | `mcp__glm-46b__ask_glm` | テスト生成B（異常系・エッジケース） | 🔴 RED |
+| glm-46c | `mcp__glm-46c__ask_glm` | 実装 Actor A（テストを通す最小実装） | 🟢 GREEN |
+| glm-46d | `mcp__glm-46d__ask_glm` | 実装 Actor B（Best-of-N 別実装案） | 🟢 GREEN |
+| glm-46e | `mcp__glm-46e__ask_glm` | Critic（テスト・実装の批評・改善提案） | 🔵 REFACTOR |
+| glm-46f | `mcp__glm-46f__ask_glm` | セキュリティ・品質レビュー | 全フェーズ |
 
 ### 並列呼び出しの原則
 - 依存関係のないタスクは**同時に**呼び出す（例: 実装とテストの並列生成）
