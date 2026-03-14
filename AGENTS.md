@@ -255,6 +255,7 @@ gh pr create --draft --title "feat: ○○機能" --body "WIP: ○○を実装�
 ## 詳細ガイド参照先
 
 - GLMワークフロー詳細: `.agents/workflows/glm_parallel.md`
+- プリフライトチェック: `.agents/workflows/preflight.md`
 - GitHub ISSUE/PR: `.agents/workflows/github.md`
 - Notion: `.agents/workflows/notion.md`
 - Claude Codeツール全般: `~/.claude/mcp-claude.md`
