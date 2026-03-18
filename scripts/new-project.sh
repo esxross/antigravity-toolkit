@@ -69,6 +69,8 @@ mkdir -p "$PROJECT_DIR"
 # ---- テンプレートファイルをコピー ----
 cp "$TEMPLATES_DIR/$TEMPLATE/CLAUDE.md" "$PROJECT_DIR/CLAUDE.md"
 cp "$TEMPLATES_DIR/$TEMPLATE/AGENTS.md" "$PROJECT_DIR/AGENTS.md"
+cp "$TEMPLATES_DIR/.mcp.json" "$PROJECT_DIR/.mcp.json"
+cp -r "$TEMPLATES_DIR/.agent" "$PROJECT_DIR/.agent"
 
 # ---- CLAUDE.md テンプレート変数を置換 ----
 sed -i '' \
@@ -76,6 +78,14 @@ sed -i '' \
   -e "s/{{PROJECT_DESCRIPTION}}/$PROJECT_DESCRIPTION/g" \
   -e "s/{{CURRENT_DATE}}/$TODAY/g" \
   "$PROJECT_DIR/CLAUDE.md"
+
+# ---- .gitignore を作成 ----
+cat > "$PROJECT_DIR/.gitignore" << EOF
+.mcp.json
+.env
+.env.local
+node_modules/
+EOF
 
 # ---- task.md を作成 ----
 cat > "$PROJECT_DIR/task.md" << EOF
