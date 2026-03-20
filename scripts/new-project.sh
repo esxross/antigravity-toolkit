@@ -30,21 +30,34 @@ fi
 # ---- プロジェクトの説明 ----
 read -p "プロジェクトの説明（1行）: " PROJECT_DESCRIPTION
 
-# ---- テンプレート選択 ----
+# ---- テンプレート選択（project-templates/ 配下を自動検出）----
 echo ""
 echo "テンプレートを選択してください："
-echo "  1) nextjs-ai-app  - Next.js + TypeScript + Claude API"
-echo "  2) landing-page   - Next.js + TypeScript + Tailwind（LP特化）"
-read -p "番号を入力 [1-2]: " TEMPLATE_CHOICE
 
-case "$TEMPLATE_CHOICE" in
-  1) TEMPLATE="nextjs-ai-app" ;;
-  2) TEMPLATE="landing-page" ;;
-  *)
-    echo "無効な選択です。"
-    exit 1
-    ;;
-esac
+TEMPLATE_DIRS=()
+i=1
+while IFS= read -r dir; do
+  tname=$(basename "$dir")
+  tdesc=""
+  if [[ -f "$dir/template.json" ]]; then
+    tdesc=$(python3 -c "import json,sys; d=json.load(open('$dir/template.json')); print(d.get('description',''))" 2>/dev/null)
+  fi
+  [[ -z "$tdesc" ]] && tdesc="$tname"
+  echo "  $i) $tname  - $tdesc"
+  TEMPLATE_DIRS+=("$tname")
+  ((i++))
+done < <(find "$TEMPLATES_DIR" -mindepth 1 -maxdepth 1 -type d ! -name '.*' | sort)
+
+TEMPLATE_COUNT="${#TEMPLATE_DIRS[@]}"
+read -p "番号を入力 [1-$TEMPLATE_COUNT]: " TEMPLATE_CHOICE
+
+if ! [[ "$TEMPLATE_CHOICE" =~ ^[0-9]+$ ]] || \
+   (( TEMPLATE_CHOICE < 1 || TEMPLATE_CHOICE > TEMPLATE_COUNT )); then
+  echo "無効な選択です。"
+  exit 1
+fi
+
+TEMPLATE="${TEMPLATE_DIRS[$((TEMPLATE_CHOICE - 1))]}"
 
 # ---- 出力先ディレクトリ ----
 read -p "作成先ディレクトリ（デフォルト: ~/Project）: " OUTPUT_DIR
