@@ -6,6 +6,7 @@ set -e
 
 TOOLKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TEMPLATES_DIR="$TOOLKIT_DIR/project-templates"
+AI_CONFIG_DIR="$HOME/Project/ai-coding-config"
 TODAY=$(date +%Y-%m-%d)
 
 # ---- カラー出力 ----
@@ -69,8 +70,30 @@ mkdir -p "$PROJECT_DIR"
 # ---- テンプレートファイルをコピー ----
 cp "$TEMPLATES_DIR/$TEMPLATE/CLAUDE.md" "$PROJECT_DIR/CLAUDE.md"
 cp "$TEMPLATES_DIR/$TEMPLATE/AGENTS.md" "$PROJECT_DIR/AGENTS.md"
-cp "$TEMPLATES_DIR/.mcp.json" "$PROJECT_DIR/.mcp.json"
 cp -r "$TEMPLATES_DIR/.agent" "$PROJECT_DIR/.agent"
+
+# ---- ai-coding-config セットアップ ----
+if [[ -d "$AI_CONFIG_DIR" ]]; then
+  # .mcp.json をコピー（単一正解ソース）
+  cp "$AI_CONFIG_DIR/.mcp.json" "$PROJECT_DIR/.mcp.json"
+
+  # .claude/rules/core/ シンボリックリンク
+  mkdir -p "$PROJECT_DIR/.claude/rules/core" "$PROJECT_DIR/.claude/hooks"
+  for rule in "$AI_CONFIG_DIR/rules/core/"*.md; do
+    ln -s "$rule" "$PROJECT_DIR/.claude/rules/core/$(basename "$rule")"
+  done
+
+  # .claude/hooks/session-start.sh シンボリックリンク
+  ln -s "$AI_CONFIG_DIR/hooks/session-start.sh" "$PROJECT_DIR/.claude/hooks/session-start.sh"
+
+  # .claude/settings.json をコピー
+  cp "$AI_CONFIG_DIR/templates/settings.json.template" "$PROJECT_DIR/.claude/settings.json"
+
+  echo -e "${GREEN}✓ ai-coding-config をセットアップしました${NC}"
+else
+  echo -e "${YELLOW}⚠ ai-coding-config が見つかりません（$AI_CONFIG_DIR）${NC}"
+  echo -e "${YELLOW}  .mcp.json はスキップされました${NC}"
+fi
 
 # ---- CLAUDE.md テンプレート変数を置換 ----
 sed -i '' \
@@ -82,6 +105,7 @@ sed -i '' \
 # ---- .gitignore を作成 ----
 cat > "$PROJECT_DIR/.gitignore" << EOF
 .mcp.json
+.claude/settings.json
 .env
 .env.local
 node_modules/
