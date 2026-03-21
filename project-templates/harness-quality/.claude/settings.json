@@ -1,0 +1,59 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(rm -rf /*)",
+      "Bash(DROP TABLE*)",
+      "Bash(truncate *)",
+      "Edit(.eslintrc*)",
+      "Edit(oxlint.json)",
+      "Edit(tsconfig.json)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=\"$CLAUDE_TOOL_INPUT_COMMAND\"; if echo \"$cmd\" | grep -qE \"rm -rf|DROP TABLE|truncate|--no-verify\"; then echo \"{\\\"decision\\\": \\\"block\\\", \\\"reason\\\": \\\"このコマンドはセキュリティポリシーによりブロックされています\\\"}\" && exit 2; fi'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c '\nfile=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"\nerrors=\"\"\n\n# TypeScript/JavaScript: oxlint + tsc\nif [[ \"$file\" == *.ts || \"$file\" == *.tsx ]]; then\n  lint_result=$(npx oxlint \"$file\" 2>&1)\n  if [ -n \"$lint_result\" ]; then\n    errors=\"[Lint]\\n$lint_result\\n\"\n  fi\n  tsc_result=$(npx tsc --noEmit 2>&1 | head -20)\n  if [ -n \"$tsc_result\" ]; then\n    errors=\"$errors[TypeScript]\\n$tsc_result\\n\"\n  fi\nfi\n\n# Python: ruff\nif [[ \"$file\" == *.py ]]; then\n  ruff_result=$(ruff check \"$file\" 2>&1)\n  if [ -n \"$ruff_result\" ]; then\n    errors=\"[Ruff]\\n$ruff_result\\n\"\n  fi\nfi\n\nif [ -n \"$errors\" ]; then\n  echo \"{\\\"hookSpecificOutput\\\": {\\\"additionalContext\\\": \\\"品質チェックエラー（修正してください）:\\\\n$errors\\\"}}\"\nfi\n'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c '\nif [ -n \"$STOP_HOOK_ACTIVE\" ]; then exit 0; fi\nexport STOP_HOOK_ACTIVE=1\n\nresult=$(npm test 2>&1 | tail -30)\nif echo \"$result\" | grep -qE \"FAIL|Error|failed\"; then\n  echo \"{\\\"hookSpecificOutput\\\": {\\\"additionalContext\\\": \\\"⚠️ テストが失敗しています。修正してから完了としてください:\\\\n$result\\\"}}\"\nfi\nosascript -e '\"'\"'display notification \"作業完了（テスト確認済み）\" with title \"Claude Code\"'\"'\"' 2>/dev/null || true\n'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Codeが入力待ちです\" with title \"Claude Code\"' 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

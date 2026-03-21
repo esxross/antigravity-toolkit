@@ -1,0 +1,15 @@
+{
+  "exp_id": "EXP-000",
+  "hypothesis": "",
+  "status": "pending",
+  "started_at": null,
+  "finished_at": null,
+  "parameters": {},
+  "metrics": {},
+  "result": "pending",
+  "actual": "",
+  "reason": "",
+  "learning": "",
+  "next_action": "",
+  "notes": ""
+}

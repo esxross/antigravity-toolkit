@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push --force*)",
+      "Edit(design/tokens.json)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c '\nfile=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"\nif [[ \"$file\" == *.tsx || \"$file\" == *.css || \"$file\" == *.html ]]; then\n  violations=\"\"\n\n  # 禁止パターンチェック\n  if grep -q \"text-black\" \"$file\" 2>/dev/null; then\n    violations=\"$violations\\n- text-black が使われています → text-slate-900 に変更してください\"\n  fi\n  if grep -qE \"shadow-[xl]{2,}\" \"$file\" 2>/dev/null; then\n    violations=\"$violations\\n- shadow-lg/xl/2xl が使われています → shadow-sm に変更してください\"\n  fi\n  if grep -q \"border-l-4\" \"$file\" 2>/dev/null; then\n    violations=\"$violations\\n- border-l-4 カラーバーが使われています → border rounded-lg に変更してください\"\n  fi\n  if grep -qE \"bg-(blue|indigo)-[0-9]\" \"$file\" 2>/dev/null; then\n    violations=\"$violations\\n- ハードコードカラー (bg-blue-*/bg-indigo-*) → bg-primary-* を使用してください\"\n  fi\n\n  if [ -n \"$violations\" ]; then\n    echo \"{\\\"hookSpecificOutput\\\": {\\\"additionalContext\\\": \\\"デザインルール違反を検出しました：$violations\\\"}}\"\n  fi\nfi\n'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Codeが入力待ちです\" with title \"Claude Code\"' 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

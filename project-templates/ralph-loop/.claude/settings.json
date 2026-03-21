@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit*)",
+      "Bash(git add*)",
+      "Bash(git status*)",
+      "Bash(npm test*)",
+      "Bash(npm run*)",
+      "Bash(node*)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(rm -rf*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c '\n# progress.json の更新確認\nif [ -f progress.json ]; then\n  STATUS=$(node -e \"const p=require(\\\"./progress.json\\\");console.log(p.status)\" 2>/dev/null || echo \"\")\n  UPDATED=$(node -e \"const p=require(\\\"./progress.json\\\");console.log(p.updated_at||\\\"not updated\\\")\" 2>/dev/null || echo \"not updated\")\n  echo \"ループステータス: $STATUS (更新: $UPDATED)\"\n\n  if [ \"$STATUS\" = \"in_progress\" ] && ! git diff --quiet HEAD 2>/dev/null; then\n    echo \"{\\\"decision\\\": \\\"block\\\", \\\"reason\\\": \\\"progress.json は更新されていますが未コミットの変更があります。git commit してから終了してください。\\\"}\" \n  fi\nfi\n'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Ralphループが入力待ちです\" with title \"Ralph Loop\"' 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(aws ec2 authorize-security-group-ingress*)",
+      "Bash(aws iam attach-role-policy* AdministratorAccess*)",
+      "Bash(aws cloudtrail stop-logging*)",
+      "Bash(aws cloudtrail delete-trail*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c '\nCMD=\"$CLAUDE_TOOL_INPUT_COMMAND\"\n\n# ハードコードされた認証情報のチェック\nif echo \"$CMD\" | grep -qE \"(sk-[a-zA-Z0-9]{20,}|AKIA[A-Z0-9]{16}|password=.{4,}|secret=.{4,})\"; then\n  echo \"{\\\"decision\\\": \\\"block\\\", \\\"reason\\\": \\\"コマンドに認証情報が含まれている可能性があります。Secrets Manager を使用してください。\\\"}\"\nfi\n\n# インバウンド追加コマンドのチェック\nif echo \"$CMD\" | grep -q \"authorize-security-group-ingress\"; then\n  echo \"{\\\"decision\\\": \\\"block\\\", \\\"reason\\\": \\\"インバウンドルールの追加は禁止されています。Tailscale VPN を使用してください。\\\"}\"\nfi\n'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c '\nFILE=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"\n\n# シークレットのハードコードチェック\nif [ -f \"$FILE\" ]; then\n  ISSUES=\"\"\n\n  if grep -qE \"(sk-[a-zA-Z0-9]{20,})\" \"$FILE\" 2>/dev/null; then\n    ISSUES=\"$ISSUES\\n- OpenAI APIキーがコードに含まれています\"\n  fi\n  if grep -qE \"(AKIA[A-Z0-9]{16})\" \"$FILE\" 2>/dev/null; then\n    ISSUES=\"$ISSUES\\n- AWS Access Key IDがコードに含まれています\"\n  fi\n  if grep -qE \"password\\s*=\\s*[\\\"\\x27][^\\\"\\x27]{4,}\" \"$FILE\" 2>/dev/null; then\n    ISSUES=\"$ISSUES\\n- パスワードがハードコードされている可能性があります\"\n  fi\n\n  if [ -n \"$ISSUES\" ]; then\n    echo \"{\\\"hookSpecificOutput\\\": {\\\"additionalContext\\\": \\\"セキュリティ警告 — シークレットのハードコードを検出:$ISSUES\\\\n\\\\nSecrets Manager / Keychain に移動してください。\\\"}}\"\n  fi\nfi\n'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code (Zero Trust) が入力待ちです\" with title \"Claude Code\"' 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
