@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help new-project list-templates check
+.PHONY: help new-project list-templates check gen-mcp
 
 help: ## このヘルプを表示する
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -8,6 +8,9 @@ help: ## このヘルプを表示する
 
 new-project: ## 新規プロジェクトを対話形式で作成する
 	@./scripts/new-project.sh
+
+gen-mcp: ## ~/.antigravity/secrets.env から .mcp.json を生成する
+	@./scripts/gen-mcp.sh
 
 list-templates: ## 利用可能なテンプレート一覧を表示する
 	@echo "利用可能なテンプレート:"

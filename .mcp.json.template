@@ -1,0 +1,129 @@
+{
+  "mcpServers": {
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{GITHUB_PERSONAL_ACCESS_TOKEN}}"
+      }
+    },
+    "glm-coder": {
+      "command": "/Users/tanakaseiji/.local/bin/uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "--with",
+        "openai",
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6",
+        "SYSTEM_PROMPT_PATH": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/system-prompt-coder.md"
+      }
+    },
+    "glm-tester": {
+      "command": "/Users/tanakaseiji/.local/bin/uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "--with",
+        "openai",
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6",
+        "SYSTEM_PROMPT_PATH": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/system-prompt-tester.md"
+      }
+    },
+    "glm-reviewer": {
+      "command": "/Users/tanakaseiji/.local/bin/uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "--with",
+        "openai",
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6",
+        "SYSTEM_PROMPT_PATH": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/system-prompt-reviewer.md"
+      }
+    },
+    "glm-coder2": {
+      "command": "/Users/tanakaseiji/.local/bin/uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "--with",
+        "openai",
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6",
+        "SYSTEM_PROMPT_PATH": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/system-prompt-coder.md"
+      }
+    },
+    "glm-tester2": {
+      "command": "/Users/tanakaseiji/.local/bin/uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "--with",
+        "openai",
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6",
+        "SYSTEM_PROMPT_PATH": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/system-prompt-tester.md"
+      }
+    },
+    "glm-reviewer2": {
+      "command": "/Users/tanakaseiji/.local/bin/uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "--with",
+        "openai",
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6",
+        "SYSTEM_PROMPT_PATH": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/system-prompt-reviewer.md"
+      }
+    },
+    "notebooklm": {
+      "command": "/Users/tanakaseiji/.local/bin/uvx",
+      "args": [
+        "--from",
+        "notebooklm-mcp-cli",
+        "notebooklm-mcp"
+      ],
+      "env": {}
+    }
+  }
+}
