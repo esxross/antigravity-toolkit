@@ -12,27 +12,27 @@ OUTPUT="$TOOLKIT_DIR/.mcp.json"
 if [ ! -f "$SECRETS_FILE" ]; then
   echo "エラー: $SECRETS_FILE が見つかりません。"
   echo "以下のコマンドで作成してください:"
-  echo "  cp $TOOLKIT_DIR/.mcp.json.template $SECRETS_FILE"
+  echo "  mkdir -p ~/.antigravity"
   echo "  # その後、各キーを実際の値に書き換えてください"
   exit 1
 fi
 
-# secrets.env を読み込む（コメント・空行を除く）
-declare -A SECRETS
+# テンプレートをコピーしてから sed で置換
+cp "$TEMPLATE" "$OUTPUT"
+
+# secrets.env を1行ずつ読んでプレースホルダーを置換
 while IFS='=' read -r key value; do
+  # コメント・空行をスキップ
   [[ "$key" =~ ^#.*$ ]] && continue
   [[ -z "$key" ]] && continue
-  SECRETS["$key"]="$value"
+  # 末尾の空白を除去
+  key="${key%"${key##*[![:space:]]}"}"
+  value="${value%"${value##*[![:space:]]}"}"
+  # sed で {{KEY}} を value に置換（macOS 互換）
+  sed -i "" "s|{{${key}}}|${value}|g" "$OUTPUT"
 done < "$SECRETS_FILE"
 
-# テンプレートを読み込んでプレースホルダーを置換
-content=$(cat "$TEMPLATE")
-for key in "${!SECRETS[@]}"; do
-  content="${content//\{\{$key\}\}/${SECRETS[$key]}}"
-done
-
-echo "$content" > "$OUTPUT"
-echo "✓ .mcp.json を生成しました（${#SECRETS[@]} 個のシークレットを適用）"
+echo "✓ .mcp.json を生成しました"
 
 # プレースホルダーが残っていたら警告
 if grep -q '{{' "$OUTPUT"; then
