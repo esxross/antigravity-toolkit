@@ -1,0 +1,157 @@
+{
+  "mcpServers": {
+    "notion": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.notion.com/mcp"
+      ]
+    },
+    "glm-46": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/.venv/bin/python",
+      "args": [
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GEMINI_GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6"
+      }
+    },
+    "glm-46b": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/.venv/bin/python",
+      "args": [
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GEMINI_GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6"
+      }
+    },
+    "glm-46c": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/.venv/bin/python",
+      "args": [
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GEMINI_GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6"
+      }
+    },
+    "glm-46d": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/.venv/bin/python",
+      "args": [
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GEMINI_GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6"
+      }
+    },
+    "glm-46e": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/.venv/bin/python",
+      "args": [
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GEMINI_GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6"
+      }
+    },
+    "glm-46f": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/.venv/bin/python",
+      "args": [
+        "/Users/tanakaseiji/.gemini/antigravity/glm-mcp/server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "{{GEMINI_GLM_API_KEY}}",
+        "OPENAI_BASE_URL": "https://api.z.ai/api/coding/paas/v4",
+        "OPENAI_MODEL": "glm-4.6"
+      }
+    },
+    "notebooklm": {
+      "command": "/Users/tanakaseiji/.local/bin/uvx",
+      "args": [
+        "--from",
+        "notebooklm-mcp-cli",
+        "notebooklm-mcp"
+      ],
+      "env": {}
+    },
+    "cocoindex-code": {
+      "command": "/Users/tanakaseiji/.local/bin/uvx",
+      "args": [
+        "--prerelease=explicit",
+        "--with",
+        "cocoindex>=1.0.0a18",
+        "cocoindex-code@latest"
+      ]
+    },
+    "StitchMCP": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://stitch.googleapis.com/mcp",
+        "--header",
+        "X-Goog-Api-Key: {{STITCH_API_KEY}}"
+      ],
+      "env": {}
+    },
+    "github-mcp-server": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{GEMINI_GITHUB_PAT}}"
+      }
+    },
+    "notion-mcp-server": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@notionhq/notion-mcp-server"
+      ],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer \", \"Notion-Version\": \"2022-06-28\"}"
+      }
+    },
+    "figma-dev-mode-mcp-server": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://127.0.0.1:3845/sse"
+      ],
+      "env": {}
+    },
+    "pencil": {
+      "command": "/Users/tanakaseiji/.antigravity/extensions/highagency.pencildev-0.6.35-universal/out/mcp-server-darwin-arm64",
+      "args": [
+        "--app",
+        "antigravity"
+      ],
+      "env": {}
+    }
+  }
+}
