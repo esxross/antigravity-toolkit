@@ -1,0 +1,5 @@
+{
+  "name": "python-notifier",
+  "description": "Python 通知・アラートアプリ（Slack/LINE/メール対応・チャンネル抽象化）",
+  "stack": "Python 3.11+ / pytest / schedule"
+}

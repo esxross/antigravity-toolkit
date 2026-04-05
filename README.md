@@ -22,7 +22,8 @@ antigravity-toolkit/
 │   ├── ralph-loop/          # 自律ループエージェント
 │   ├── agent-zero-trust/    # ゼロトラスト環境
 │   ├── agentic-rd/          # AI駆動実験ループ
-│   └── claude-tooling/      # Claude Code 環境カスタマイズ
+│   ├── claude-tooling/      # Claude Code 環境カスタマイズ
+│   └── python-notifier/     # Python 通知・アラートアプリ
 ├── scripts/
 │   └── new-project.sh       # プロジェクト作成スクリプト
 ├── .agents/workflows/       # AIエージェント用ワークフロー定義
@@ -78,6 +79,12 @@ make check          # ツールキット構成確認
 | `ralph-loop` | 自律ループ型エージェント | `PROMPT.md` 目標仕様 + `progress.json` 状態管理 + Backpressure Gate |
 | `agent-zero-trust` | エージェント専用ゼロトラスト環境 | AI専用アカウント + Tailscale VPN（インバウンド完全閉鎖）+ Keychain シークレット管理 |
 | `agentic-rd` | AI駆動実験ループ | EXP + child-exp 2段構成、`CLAUDE.md` を生きたガードレールとして更新 |
+
+### Python・スクリプト
+
+| テンプレート | 用途 | 特徴 |
+| --- | --- | --- |
+| `python-notifier` | 通知・アラートアプリ | Slack/LINE/メール対応・`BaseChannel` 抽象化・schedule スケジューラー |
 
 ### ツール・環境設定
 
