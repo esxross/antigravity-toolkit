@@ -14,7 +14,7 @@ gen-mcp: ## ~/.antigravity/secrets.env から .mcp.json を生成する
 
 list-templates: ## 利用可能なテンプレート一覧を表示する
 	@echo "利用可能なテンプレート:"
-	@ls -1 project-templates/
+	@find project-templates -mindepth 2 -maxdepth 2 -type d ! -name '.*' ! -path '*/.*/*' | sort | sed 's|project-templates/||'
 
 check: ## このツールキットの構成を確認する
 	@echo "=== Antigravity Toolkit 構成確認 ==="

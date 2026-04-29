@@ -1,0 +1,10 @@
+{
+  "name": "trading-infra",
+  "category": "agent",
+  "description": "アルゴリズムトレード基盤。tick→OHLCV変換・シグナル生成・Streamlitダッシュボード。",
+  "stack": ["Python", "FastAPI", "SQLite", "Streamlit", "pandas"],
+  "difficulty": "advanced",
+  "requiredServices": ["証券会社API（MarketSpeed II等）"],
+  "estimatedSetupMinutes": 30,
+  "tags": ["trading", "finance", "algorithm", "backtest", "dashboard"]
+}

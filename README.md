@@ -11,19 +11,27 @@ antigravity-toolkit/
 │   └── settings.json
 ├── claude-code/             # Claude Code 設定テンプレート
 │   └── CLAUDE.md.template
-├── project-templates/       # プロジェクトテンプレート
-│   ├── nextjs-ai-app/       # Next.js + Claude API
-│   ├── landing-page/        # LP特化
-│   ├── solo-saas/           # ソロ開発SaaS
-│   ├── team-layered/        # チーム・レイヤードアーキテクチャ
-│   ├── multi-agent/         # マルチエージェント
-│   ├── harness-quality/     # 品質ゲート
-│   ├── ai-design/           # AIデザインシステム
-│   ├── ralph-loop/          # 自律ループエージェント
-│   ├── agent-zero-trust/    # ゼロトラスト環境
-│   ├── agentic-rd/          # AI駆動実験ループ
-│   ├── claude-tooling/      # Claude Code 環境カスタマイズ
-│   └── python-notifier/     # Python 通知・アラートアプリ
+├── project-templates/       # プロジェクトテンプレート（目的軸で分類）
+│   ├── ship/                # 早くリリースしたい
+│   │   ├── nextjs-ai-app/
+│   │   ├── landing-page/
+│   │   ├── solo-saas/
+│   │   └── pwa-location/
+│   ├── agent/               # AIエージェントを動かしたい
+│   │   ├── multi-agent/
+│   │   ├── ralph-loop/
+│   │   ├── agentic-rd/
+│   │   ├── agent-zero-trust/
+│   │   ├── media-pipeline/
+│   │   └── trading-infra/
+│   ├── scale/               # チームで・大きく作りたい
+│   │   ├── team-layered/
+│   │   └── harness-quality/
+│   ├── design/              # UIシステムを整えたい
+│   │   └── ai-design/
+│   └── tooling/             # 環境・自動化を整えたい
+│       ├── claude-tooling/
+│       └── python-notifier/
 ├── scripts/
 │   └── new-project.sh       # プロジェクト作成スクリプト
 ├── .agents/workflows/       # AIエージェント用ワークフロー定義
@@ -55,42 +63,47 @@ make check          # ツールキット構成確認
 
 ## テンプレート一覧
 
-### アプリケーション開発
+### 🚀 ship — 早くリリースしたい
 
-| テンプレート | 用途 | 特徴 |
-| --- | --- | --- |
-| `nextjs-ai-app` | AIを活用したWebアプリ | Next.js 14 + TypeScript + Claude API |
-| `landing-page` | コンバージョン特化LP | 3ファイル構成（design-system / lp-structure / content） |
-| `solo-saas` | ソロ開発者向けSaaS | 最小構成・セキュリティファースト・Conventional Commits自動化 |
-| `team-layered` | チーム開発・レイヤードアーキテクチャ | domain / application / infra / presentation の依存方向を強制 |
-| `multi-agent` | マルチエージェント・BC分割 | Bounded Context ごとに責務分割、reviewer / tester サブエージェント内蔵 |
+| テンプレート | 用途 | 特徴 | 難易度 |
+| --- | --- | --- | --- |
+| `ship/nextjs-ai-app` | AIを活用したWebアプリ | Next.js 14 + TypeScript + Claude API | 🟡 intermediate |
+| `ship/landing-page` | コンバージョン特化LP | 3ファイル構成（design-system / lp-structure / content） | 🟢 beginner |
+| `ship/solo-saas` | ソロ開発者向けSaaS | 最小構成・セキュリティファースト・Conventional Commits自動化 | 🟡 intermediate |
+| `ship/pwa-location` | 位置情報 × Google Places API × PWA | 現在地から近くのスポットをジャンル・ソートで検索 | 🟡 intermediate |
 
-### 品質・設計
+### 🤖 agent — AIエージェントを動かしたい
 
-| テンプレート | 用途 | 特徴 |
-| --- | --- | --- |
-| `harness-quality` | Harness Engineering 品質ゲート | oxlint + tsc + vitest をフックで自動実行、`--no-verify` を物理ブロック |
-| `ai-design` | AIデザインシステム | `tokens.json` を SSOT に、76の禁止パターンをリアルタイム検出 |
+| テンプレート | 用途 | 特徴 | 難易度 |
+| --- | --- | --- | --- |
+| `agent/multi-agent` | マルチエージェント・BC分割 | Bounded Context ごとに責務分割、reviewer / tester サブエージェント内蔵 | 🟡 intermediate |
+| `agent/ralph-loop` | 自律ループ型エージェント | `PROMPT.md` 目標仕様 + `progress.json` 状態管理 + Backpressure Gate | 🟡 intermediate |
+| `agent/agentic-rd` | AI駆動実験ループ | EXP + child-exp 2段構成、`CLAUDE.md` を生きたガードレールとして更新 | 🟡 intermediate |
+| `agent/agent-zero-trust` | エージェント専用ゼロトラスト環境 | AI専用アカウント + Tailscale VPN（インバウンド完全閉鎖）+ Keychain シークレット管理 | 🔴 advanced |
+| `agent/media-pipeline` | 自動コンテンツ生成パイプライン | RSS → Claude APIタグ付け → Gemini API生成 → Supabase保存 | 🟡 intermediate |
+| `agent/trading-infra` | アルゴリズムトレード基盤 | tick→OHLCV変換・VWAP/MACD/RSIシグナル・Streamlitダッシュボード | 🔴 advanced |
 
-### エージェント・自動化
+> **`agent/agent-zero-trust`** 🔴 上級者向け・Tailscale VPN環境が必要
 
-| テンプレート | 用途 | 特徴 |
-| --- | --- | --- |
-| `ralph-loop` | 自律ループ型エージェント | `PROMPT.md` 目標仕様 + `progress.json` 状態管理 + Backpressure Gate |
-| `agent-zero-trust` | エージェント専用ゼロトラスト環境 | AI専用アカウント + Tailscale VPN（インバウンド完全閉鎖）+ Keychain シークレット管理 |
-| `agentic-rd` | AI駆動実験ループ | EXP + child-exp 2段構成、`CLAUDE.md` を生きたガードレールとして更新 |
+### 🏗 scale — チームで・大きく作りたい
 
-### Python・スクリプト
+| テンプレート | 用途 | 特徴 | 難易度 |
+| --- | --- | --- | --- |
+| `scale/team-layered` | チーム開発・レイヤードアーキテクチャ | domain / application / infra / presentation の依存方向を強制 | 🟡 intermediate |
+| `scale/harness-quality` | Harness Engineering 品質ゲート | oxlint + tsc + vitest をフックで自動実行、`--no-verify` を物理ブロック | 🟡 intermediate |
 
-| テンプレート | 用途 | 特徴 |
-| --- | --- | --- |
-| `python-notifier` | 通知・アラートアプリ | Slack/LINE/メール対応・`BaseChannel` 抽象化・schedule スケジューラー |
+### 🎨 design — UIシステムを整えたい
 
-### ツール・環境設定
+| テンプレート | 用途 | 特徴 | 難易度 |
+| --- | --- | --- | --- |
+| `design/ai-design` | AIデザインシステム | `tokens.json` を SSOT に、76の禁止パターンをリアルタイム検出 | 🟡 intermediate |
 
-| テンプレート | 用途 | 特徴 |
-| --- | --- | --- |
-| `claude-tooling` | Claude Code 環境カスタマイズ | statusline スクリプト 5パターン（rate_limits 対応）+ フックレシピ集 |
+### 🔧 tooling — 環境・自動化を整えたい
+
+| テンプレート | 用途 | 特徴 | 難易度 |
+| --- | --- | --- | --- |
+| `tooling/claude-tooling` | Claude Code 環境カスタマイズ | statusline スクリプト 5パターン（rate_limits 対応）+ フックレシピ集 | 🟢 beginner |
+| `tooling/python-notifier` | 通知・アラートアプリ | Slack/LINE/メール対応・`BaseChannel` 抽象化・schedule スケジューラー | 🟡 intermediate |
 
 ## 設定ファイルの使い方
 

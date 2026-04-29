@@ -30,23 +30,27 @@ fi
 # ---- プロジェクトの説明 ----
 read -p "プロジェクトの説明（1行）: " PROJECT_DESCRIPTION
 
-# ---- テンプレート選択（project-templates/ 配下を自動検出）----
+# ---- テンプレート選択（project-templates/category/name を自動検出）----
 echo ""
 echo "テンプレートを選択してください："
 
 TEMPLATE_DIRS=()
 i=1
 while IFS= read -r dir; do
+  category=$(basename "$(dirname "$dir")")
   tname=$(basename "$dir")
+  rel_path="$category/$tname"
   tdesc=""
-  if [[ -f "$dir/template.json" ]]; then
-    tdesc=$(python3 -c "import json,sys; d=json.load(open('$dir/template.json')); print(d.get('description',''))" 2>/dev/null)
+  if [[ -f "$dir/template.config.json" ]]; then
+    tdesc=$(python3 -c "import json; d=json.load(open('$dir/template.config.json')); print(d.get('description',''))" 2>/dev/null)
+  elif [[ -f "$dir/template.json" ]]; then
+    tdesc=$(python3 -c "import json; d=json.load(open('$dir/template.json')); print(d.get('description',''))" 2>/dev/null)
   fi
   [[ -z "$tdesc" ]] && tdesc="$tname"
-  echo "  $i) $tname  - $tdesc"
-  TEMPLATE_DIRS+=("$tname")
+  echo "  $i) [$category] $tname  - $tdesc"
+  TEMPLATE_DIRS+=("$rel_path")
   ((i++))
-done < <(find "$TEMPLATES_DIR" -mindepth 1 -maxdepth 1 -type d ! -name '.*' | sort)
+done < <(find "$TEMPLATES_DIR" -mindepth 2 -maxdepth 2 -type d ! -name '.*' | sort)
 
 TEMPLATE_COUNT="${#TEMPLATE_DIRS[@]}"
 read -p "番号を入力 [1-$TEMPLATE_COUNT]: " TEMPLATE_CHOICE

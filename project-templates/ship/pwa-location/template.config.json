@@ -1,0 +1,10 @@
+{
+  "name": "pwa-location",
+  "category": "ship",
+  "description": "位置情報 × Google Places API × PWA。現在地から近くのスポットをジャンル・ソートで検索。",
+  "stack": ["TypeScript", "PWA", "Google Places API (New)", "Geolocation API"],
+  "difficulty": "intermediate",
+  "requiredServices": ["Google Maps Platform（Places API New有効化）"],
+  "estimatedSetupMinutes": 10,
+  "tags": ["location", "pwa", "maps", "restaurant", "local-search"]
+}

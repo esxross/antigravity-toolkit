@@ -1,0 +1,10 @@
+{
+  "name": "media-pipeline",
+  "category": "agent",
+  "description": "RSS → AI処理 → マルチフォーマット出力の自動コンテンツ生成パイプライン。",
+  "stack": ["Python", "Claude API", "Gemini API", "Supabase", "GitHub Actions"],
+  "difficulty": "intermediate",
+  "requiredServices": ["Anthropic API", "Google AI Studio（Gemini）", "Supabase"],
+  "estimatedSetupMinutes": 20,
+  "tags": ["media", "automation", "rss", "content-generation", "pipeline"]
+}
